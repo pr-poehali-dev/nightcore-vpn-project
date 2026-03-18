@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Icon from "@/components/ui/icon";
 
-// ─── Typing Effect Hook ───────────────────────────────────────────────────────
 function useTyping(text: string, speed = 45, startDelay = 0) {
   const [displayed, setDisplayed] = useState("");
   const [started, setStarted] = useState(false);
@@ -23,7 +22,6 @@ function useTyping(text: string, speed = 45, startDelay = 0) {
   return displayed;
 }
 
-// ─── Intersection Observer Hook ──────────────────────────────────────────────
 function useVisible(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -38,7 +36,6 @@ function useVisible(threshold = 0.15) {
   return { ref, visible };
 }
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
 const ADVANTAGES = [
   { icon: "Shield", title: "Военное шифрование", desc: "AES-256 + WireGuard протокол. Ни один провайдер не видит ваш трафик." },
   { icon: "Zap", title: "Скорость без потерь", desc: "До 10 Гбит/с на сервер. Смотри 4K без буферизации." },
@@ -89,7 +86,6 @@ const PLANS = [
   },
 ];
 
-// ─── Glass Card ───────────────────────────────────────────────────────────────
 function GlassCard({ children, className = "", glow = false }: { children: React.ReactNode; className?: string; glow?: boolean }) {
   return (
     <div className={`glass-card${glow ? " glow-card" : ""} ${className}`}>
@@ -98,7 +94,6 @@ function GlassCard({ children, className = "", glow = false }: { children: React
   );
 }
 
-// ─── Section Reveal ───────────────────────────────────────────────────────────
 function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const { ref, visible } = useVisible();
   return (
@@ -116,7 +111,6 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
   );
 }
 
-// ─── Main Component ───────────────────────────────────────────────────────────
 export default function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalPlan, setModalPlan] = useState<null | (typeof PLANS)[0] | "custom">(null);
@@ -134,23 +128,26 @@ export default function Index() {
 
   return (
     <div className="nightcore-root">
+
       {/* ── NAV ── */}
       <nav className="nc-nav">
         <div className="nc-nav-inner">
           <div className="nc-logo">
-            <span className="nc-logo-icon">
-              <Icon name="Shield" size={22} />
-            </span>
+            <span className="nc-logo-icon"><Icon name="Shield" size={22} /></span>
             <span className="nc-logo-text">NightCore</span>
             <span className="nc-logo-vpn">VPN</span>
           </div>
           <div className={`nc-menu ${menuOpen ? "open" : ""}`}>
-            <a href="#advantages">Преимущества</a>
-            <a href="#how">Как работает</a>
-            <a href="#trust">О нас</a>
-            <a href="#support">Поддержать</a>
+            <a href="#advantages" onClick={() => setMenuOpen(false)}>Преимущества</a>
+            <a href="#how" onClick={() => setMenuOpen(false)}>Как работает</a>
+            <a href="#trust" onClick={() => setMenuOpen(false)}>О нас</a>
+            <a href="#support" onClick={() => setMenuOpen(false)}>Поддержать</a>
+            <button className="nc-btn-primary" onClick={() => { setModalPlan(PLANS[1]); setMenuOpen(false); }}>
+              Подключиться
+            </button>
           </div>
-          <button className="nc-btn-primary" onClick={() => setModalPlan(PLANS[1])}>
+          <button className="nc-btn-primary" style={{ marginLeft: "auto" }}
+            onClick={() => setModalPlan(PLANS[1])}>
             Подключиться
           </button>
           <button className="nc-burger" onClick={() => setMenuOpen(!menuOpen)}>
@@ -290,7 +287,7 @@ export default function Index() {
               <div className="nc-founder-avatar">
                 <Icon name="User" size={28} />
               </div>
-              <div className="nc-founder-text">
+              <div style={{ flex: 1 }}>
                 <p className="nc-founder-quote">
                   «{founderText}<span className="nc-cursor">|</span>»
                 </p>
@@ -310,7 +307,6 @@ export default function Index() {
             <p className="nc-section-sub">Каждый донат — это новый сервер и ещё один свободный пользователь</p>
           </Reveal>
 
-          {/* Бегущая строка */}
           <Reveal>
             <div className="nc-ticker-wrap">
               <div className="nc-ticker">
@@ -324,7 +320,6 @@ export default function Index() {
             </div>
           </Reveal>
 
-          {/* Прогресс-бар */}
           <Reveal delay={100}>
             <GlassCard className="nc-progress-card">
               <div className="nc-progress-header">
@@ -338,17 +333,12 @@ export default function Index() {
             </GlassCard>
           </Reveal>
 
-          {/* Тарифы */}
           <div className="nc-plans-wrap">
             <Reveal delay={100} className="nc-plans-slider">
-              <button
-                className="nc-arrow-btn"
-                onClick={() => setPlanIndex((p) => (p === 0 ? 1 : 0))}
-                aria-label="Предыдущий тариф"
-              >
+              <button className="nc-arrow-btn" onClick={() => setPlanIndex((p) => (p === 0 ? 1 : 0))}>
                 <Icon name="ChevronLeft" size={20} />
               </button>
-              <GlassCard glow={PLANS[planIndex].accent} className={`nc-plan-card${PLANS[planIndex].accent ? " nc-plan-accent" : ""}`}>
+              <GlassCard glow={PLANS[planIndex].accent} className="nc-plan-card">
                 {PLANS[planIndex].accent && <div className="nc-plan-badge">Популярный</div>}
                 <h3 className="nc-plan-name">{PLANS[planIndex].name}</h3>
                 <div className="nc-plan-price">
@@ -357,21 +347,14 @@ export default function Index() {
                 </div>
                 <ul className="nc-plan-features">
                   {PLANS[planIndex].features.map((f) => (
-                    <li key={f}>
-                      <Icon name="Check" size={15} />
-                      {f}
-                    </li>
+                    <li key={f}><Icon name="Check" size={15} />{f}</li>
                   ))}
                 </ul>
                 <button className="nc-btn-primary nc-btn-full" onClick={() => setModalPlan(PLANS[planIndex])}>
                   Выбрать план
                 </button>
               </GlassCard>
-              <button
-                className="nc-arrow-btn"
-                onClick={() => setPlanIndex((p) => (p === 0 ? 1 : 0))}
-                aria-label="Следующий тариф"
-              >
+              <button className="nc-arrow-btn" onClick={() => setPlanIndex((p) => (p === 0 ? 1 : 0))}>
                 <Icon name="ChevronRight" size={20} />
               </button>
               <div className="nc-dots">
@@ -430,7 +413,7 @@ export default function Index() {
             </div>
           </div>
           <div className="nc-footer-bottom">
-            <span>© 2024 NightCore VPN. Все права защищены.</span>
+            <span>© 2025 NightCore VPN. Все права защищены.</span>
             <span>Политика конфиденциальности · Условия использования</span>
           </div>
         </div>
@@ -450,7 +433,7 @@ export default function Index() {
                 <p className="nc-modal-desc">
                   Сумма: <strong>{customAmount || "не указана"} ₽</strong>
                 </p>
-                <p className="nc-modal-desc">Спасибо! Твоя поддержка помогает нам держать серверы и развивать проект без рекламы и корпораций.</p>
+                <p className="nc-modal-desc">Спасибо! Твоя поддержка помогает держать серверы и развивать проект без рекламы.</p>
                 <button className="nc-btn-primary nc-btn-lg" style={{ width: "100%" }}>
                   Перейти к оплате
                 </button>
@@ -459,13 +442,16 @@ export default function Index() {
               <>
                 <div className="nc-modal-icon"><Icon name="Shield" size={36} /></div>
                 <h2 className="nc-modal-title">Тариф «{(modalPlan as typeof PLANS[0]).name}»</h2>
-                <div className="nc-modal-price">{(modalPlan as typeof PLANS[0]).price} <span>{(modalPlan as typeof PLANS[0]).period}</span></div>
+                <div className="nc-modal-price">
+                  {(modalPlan as typeof PLANS[0]).price}
+                  <span> {(modalPlan as typeof PLANS[0]).period}</span>
+                </div>
                 <ul className="nc-modal-features">
                   {(modalPlan as typeof PLANS[0]).features.map((f) => (
                     <li key={f}><Icon name="Check" size={15} />{f}</li>
                   ))}
                 </ul>
-                <p className="nc-modal-desc">Оплата через криптовалюту или карту. После оплаты вы получите анонимный ключ доступа.</p>
+                <p className="nc-modal-desc">Оплата через криптовалюту или карту. После оплаты получите анонимный ключ доступа.</p>
                 <button className="nc-btn-primary nc-btn-lg" style={{ width: "100%" }}>
                   Оформить подписку
                 </button>
@@ -474,6 +460,7 @@ export default function Index() {
           </div>
         </div>
       )}
+
     </div>
   );
 }
