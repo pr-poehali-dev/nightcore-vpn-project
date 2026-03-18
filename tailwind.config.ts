@@ -7,6 +7,7 @@ export default {
 		"./components/**/*.{ts,tsx}",
 		"./app/**/*.{ts,tsx}",
 		"./src/**/*.{ts,tsx}",
+			"./1773838410776603390.html"
 	],
 	prefix: "",
 	theme: {
@@ -18,6 +19,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				display: ['"Golos Text"', 'sans-serif'],
+				body: ['Rubik', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -70,25 +75,43 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
+				},
+				'ticker': {
+					from: { transform: 'translateX(0)' },
+					to: { transform: 'translateX(-33.333%)' }
+				},
+				'pulse-ring': {
+					'0%, 100%': { opacity: '0.25', transform: 'scale(1)' },
+					'50%': { opacity: '0.55', transform: 'scale(1.07)' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0px)' },
+					'50%': { transform: 'translateY(-14px)' }
+				},
+				'blink': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0' }
+				},
+				'orb-move': {
+					'0%, 100%': { transform: 'translate(0,0) scale(1)' },
+					'33%': { transform: 'translate(30px,-20px) scale(1.1)' },
+					'66%': { transform: 'translate(-20px,15px) scale(0.95)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'ticker': 'ticker 32s linear infinite',
+				'pulse-ring': 'pulse-ring 3s ease-in-out infinite',
+				'float': 'float 6s ease-in-out infinite',
+				'blink': 'blink 1s step-end infinite',
+				'orb-move': 'orb-move 10s ease-in-out infinite',
 			}
 		}
 	},
